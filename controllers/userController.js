@@ -14,6 +14,7 @@ class userController {
                 res.status(200).json({ message: 'Successfully created a user!', createdUser })
             })
             .catch((err) => {
+                console.log(err)
                 res.status(500).json(err)
             })
     }
