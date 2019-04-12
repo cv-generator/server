@@ -10,7 +10,6 @@ Access server via `http://localhost:3000`<br>
 JWT_SECRET=
 DATABASE=
 PROJECT_ID=
-PATH=
 ```
 **DON'T FORGET TO INPUT YOUR ENV VARIABLES! It can be found in .env.example**
 
