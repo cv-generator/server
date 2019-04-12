@@ -45,6 +45,17 @@ class userController {
                 res.status(500).json(err)
             })
     }
+
+    static upload(req, res, next) {
+        const { file } = req
+        const { gcsUrl, originalname } = file
+        if (file && gcsUrl) res.status(201).json({
+            message: `Successfully uploaded to the cloud!`,
+            url: `${gcsUrl}`,
+            file: `${originalname}`
+        })
+        else res.status(500).json({message: 'Unable to upload!'})
+    }
 }
 
 module.exports = userController

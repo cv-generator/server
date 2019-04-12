@@ -16,15 +16,9 @@ router.post('/login', userController.login)
 router.post('/verify', authenticate)
 router.post(
     '/upload',
-    multer.single('image'),
-    gcsMiddlewares.sendUploadToGCS,
-    (req, res, next) => {
-        if (req.file && req.file.gcsUrl) {
-            return res.send(req.file.gcsUrl);
-        }
-
-        return res.status(500).send('Unable to upload');
-    },
+    multer.single('file'),
+    gcsMiddlewares.sendUploadToGCS, userController.upload
 );
+
 
 module.exports = router
