@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const CV = require('../models/cv')
 const { compare } = require('../helpers/bcrypt')
 const { sign } = require('../helpers/jwt')
 
@@ -49,12 +50,23 @@ class userController {
     static upload(req, res, next) {
         const { file } = req
         const { gcsUrl, originalname } = file
-        if (file && gcsUrl) res.status(201).json({
-            message: `Successfully uploaded to the cloud!`,
-            url: `${gcsUrl}`,
-            file: `${originalname}`
-        })
-        else res.status(500).json({message: 'Unable to upload!'})
+        if (file && gcsUrl) {
+            CV
+                .create({
+                    url: gcsUrl,
+                    UserId: req.authenticatedUser.id
+                })
+                .then(() => {
+                    res.status(201).json({
+                        message: `Successfully uploaded to the cloud!`,
+                        url: `${gcsUrl}`,
+                        file: `${originalname}`
+                    })
+                })
+                .catch((err) => {
+                    res.status(500).json(err.message)
+                })
+        } else res.status(500).json({ message: 'Unable to upload!' })
     }
 }
 

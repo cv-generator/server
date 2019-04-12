@@ -13,12 +13,13 @@ const multer = Multer({
 
 router.post('/register', userController.register)
 router.post('/login', userController.login)
-router.post('/verify', authenticate)
+router.use(authenticate)
 router.post(
     '/upload',
     multer.single('file'),
     gcsMiddlewares.sendUploadToGCS, userController.upload
-);
+    );
+router.post('/verify', authenticate)
 
 
 module.exports = router
